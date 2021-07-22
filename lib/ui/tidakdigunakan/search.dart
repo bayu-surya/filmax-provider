@@ -4,7 +4,7 @@ import 'package:filmax/common/styles.dart';
 import 'package:filmax/common/tidakdigunakan/data_mapper.dart';
 import 'package:filmax/provider/tidakdigunakan/search_restaurant_provider.dart';
 import 'package:filmax/ui/tidakdigunakan/favorite_list.dart';
-import 'package:filmax/widgets/tidakdigunakan/alert_connection.dart';
+import 'package:filmax/widgets/alert_connection.dart';
 import 'package:filmax/widgets/tidakdigunakan/card_article.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,15 +19,14 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-
   String _searchString = "";
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search',
+        title: Text(
+          'Search',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -57,22 +56,22 @@ class _SearchState extends State<Search> {
             SizedBox(height: 10.0),
             Row(
               children: <Widget>[
-                SizedBox(
-                    width : 10.0),
+                SizedBox(width: 10.0),
                 Expanded(
-                  child:
-                  Stack(
+                  child: Stack(
                     children: <Widget>[
                       TextFormField(
                         keyboardType: TextInputType.text,
                         autofocus: false,
                         decoration: InputDecoration(
                           hintText: 'Search',
-                          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                          contentPadding:
+                              EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(32.0)),
                         ),
                         onChanged: (text) {
-                          _searchString=text;
+                          _searchString = text;
                         },
                       ),
                       Align(
@@ -84,8 +83,10 @@ class _SearchState extends State<Search> {
                             size: 26.0,
                           ),
                           onPressed: () {
-                            if(_searchString!="") {
-                              Provider.of<SearchRestaurantProvider>(context, listen: false).fetchAllArticle(_searchString);
+                            if (_searchString != "") {
+                              Provider.of<SearchRestaurantProvider>(context,
+                                      listen: false)
+                                  .fetchAllArticle(_searchString);
                             }
                           },
                         ),
@@ -93,8 +94,7 @@ class _SearchState extends State<Search> {
                     ],
                   ),
                 ),
-                SizedBox(
-                    width : 10.0),
+                SizedBox(width: 10.0),
               ],
             ),
             Expanded(
@@ -112,30 +112,40 @@ class _SearchState extends State<Search> {
                           return Card(
                             elevation: 1.7,
                             child: CardArticle(
-                              article: DataMapper().restaurantToFavorite(state.result!.restaurants[index]),
+                              article: DataMapper().restaurantToFavorite(
+                                  state.result!.restaurants[index]),
                             ),
                           );
                         },
                       );
                     } else if (state.state == ResultState.NoData) {
-                      return Center(child: Container(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(state.message,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            ),)),);
+                      return Center(
+                        child: Container(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              state.message,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      );
                     } else if (state.state == ResultState.Error) {
                       return Center(
-                        child:
-                        Column(
+                        child: Column(
                           children: <Widget>[
                             AlertConnection(),
                             Container(
                               padding: const EdgeInsets.all(16.0),
-                              child: Text(state.message,
+                              child: Text(
+                                state.message,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                ),),),],),);
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     } else {
                       return Center(child: Text(''));
                     }

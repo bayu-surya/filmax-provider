@@ -4,12 +4,13 @@ import 'package:filmax/provider/movienow_provider.dart';
 import 'package:filmax/provider/moviepopular_provider.dart';
 import 'package:filmax/provider/movietop_provider.dart';
 import 'package:filmax/provider/movieupcoming_provider.dart';
-import 'package:filmax/provider/tidakdigunakan/search_restaurant_provider.dart' as search;
+import 'package:filmax/provider/tidakdigunakan/search_restaurant_provider.dart'
+    as search;
 import 'package:filmax/ui/tidakdigunakan/search.dart';
 import 'package:filmax/utils/result_state.dart';
+import 'package:filmax/widgets/alert_connection.dart';
 import 'package:filmax/widgets/app_drawer.dart';
 import 'package:filmax/widgets/card_nowplaying.dart';
-import 'package:filmax/widgets/tidakdigunakan/alert_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,14 +24,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final TextEditingController _filter = new TextEditingController();
   final dio = new Dio();
   String _searchText = "";
   List names = [];
   List filteredNames = [];
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text( 'Search Example' );
+  Widget _appBarTitle = new Text('Search Example');
 
   @override
   void initState() {
@@ -42,7 +42,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home',
+        title: Text(
+          'Home',
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
@@ -53,18 +54,18 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(right: 20.0),
               child: GestureDetector(
                 onTap: () {
-                  Provider.of<search.SearchRestaurantProvider>(context, listen: false).empty();
+                  Provider.of<search.SearchRestaurantProvider>(context,
+                          listen: false)
+                      .empty();
                   Navigator.pushNamed(context, Search.routeName);
                 },
                 child: Icon(
                   Icons.search,
                   size: 26.0,
                 ),
-              )
-          ),
+              )),
         ],
       ),
-
       drawer: AppDrawer(),
       body: _buildHome(),
     );
@@ -75,13 +76,12 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: <Widget>[
           _tittleListView("Now Playing"),
-
           Container(
             height: 270,
             child: Consumer<MovieNowProvider>(
               builder: (context, state, _) {
                 if (state.state == ResultState.Loading) {
-                  return Center(child:CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
                   return Center(
                     child: ListView.builder(
@@ -90,8 +90,10 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.result!.results.length,
                       itemBuilder: (context, index) {
                         return CardArticle(
-                            article: DataMapper().movieNowToPopuler(state.result!.results[index]), jenis: '',
-                          );
+                          article: DataMapper()
+                              .movieNowToPopuler(state.result!.results[index]),
+                          jenis: '',
+                        );
                       },
                     ),
                   );
@@ -105,17 +107,13 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-
           _tittleListView("Top Rated"),
-
           Container(
             height: 270,
             child: Consumer<MovieTopProvider>(
               builder: (context, state, _) {
                 if (state.state == ResultState.Loading) {
-                  return Center(
-                      child:CircularProgressIndicator()
-                  );
+                  return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
                   return Center(
                     child: ListView.builder(
@@ -124,8 +122,10 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.result!.results.length,
                       itemBuilder: (context, index) {
                         return CardArticle(
-                            article: DataMapper().movieTopToPopuler(state.result!.results[index]), jenis: '',
-                          );
+                          article: DataMapper()
+                              .movieTopToPopuler(state.result!.results[index]),
+                          jenis: '',
+                        );
                       },
                     ),
                   );
@@ -139,15 +139,13 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-
           _tittleListView("Popular"),
-
           Container(
             height: 270,
             child: Consumer<MoviePopularProvider>(
               builder: (context, state, _) {
                 if (state.state == ResultState.Loading) {
-                  return Center(child:CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
                   return Center(
                     child: ListView.builder(
@@ -156,8 +154,9 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.result!.results.length,
                       itemBuilder: (context, index) {
                         return CardArticle(
-                            article:  state.result!.results[index], jenis: '',
-                          );
+                          article: state.result!.results[index],
+                          jenis: '',
+                        );
                       },
                     ),
                   );
@@ -171,15 +170,13 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
-
           _tittleListView("Upcoming"),
-
           Container(
             height: 270,
             child: Consumer<MovieUpcomingProvider>(
               builder: (context, state, _) {
                 if (state.state == ResultState.Loading) {
-                  return Center(child:CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 } else if (state.state == ResultState.HasData) {
                   return Center(
                     child: ListView.builder(
@@ -188,8 +185,10 @@ class _HomePageState extends State<HomePage> {
                       itemCount: state.result!.results.length,
                       itemBuilder: (context, index) {
                         return CardArticle(
-                            article: DataMapper().movieUpcomingToPopuler(state.result!.results[index]), jenis: '',
-                          );
+                          article: DataMapper().movieUpcomingToPopuler(
+                              state.result!.results[index]),
+                          jenis: '',
+                        );
                       },
                     ),
                   );
@@ -211,45 +210,49 @@ class _HomePageState extends State<HomePage> {
   Container _buildContainerNoData(String message) {
     return Container(
         padding: const EdgeInsets.all(16.0),
-        child: Text(message,
+        child: Text(
+          message,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-          ),));
+          ),
+        ));
   }
 
   Center _buildCenter(String message) {
     return Center(
-      child:
-      Column(
+      child: Column(
         children: <Widget>[
           AlertConnection(),
           Container(
               padding: const EdgeInsets.all(16.0),
-              child: Text(message,
+              child: Text(
+                message,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                ),))
-          ,],),);
+                ),
+              )),
+        ],
+      ),
+    );
   }
 
   Row _tittleListView(String tittle) {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.only(left:20, top:10, bottom: 10),
-          child: Text( tittle,
+          padding: EdgeInsets.only(left: 20, top: 10, bottom: 10),
+          child: Text(
+            tittle,
             style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 18),
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         Expanded(
           flex: 2,
           child: Container(
-            padding: EdgeInsets.only(right:20, top:10, bottom: 10),
-            child:
-            Text("MORE",
+            padding: EdgeInsets.only(right: 20, top: 10, bottom: 10),
+            child: Text(
+              "MORE",
               textAlign: TextAlign.end,
               style: TextStyle(
                   color: Colors.black,
@@ -274,14 +277,13 @@ class ExamplePage extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<ExamplePage> {
-
   final TextEditingController _filter = new TextEditingController();
   final dio = new Dio();
   String _searchText = "";
   List names = [];
   List filteredNames = [];
   Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text( 'Search Example' );
+  Widget _appBarTitle = new Text('Search Example');
 
   @override
   void initState() {
@@ -314,7 +316,9 @@ class _ExamplePageState extends State<ExamplePage> {
     if (_searchText.isNotEmpty) {
       List tempList = [];
       for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]['name'].toLowerCase().contains(_searchText.toLowerCase())) {
+        if (filteredNames[i]['name']
+            .toLowerCase()
+            .contains(_searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);
         }
       }
@@ -353,13 +357,11 @@ class _ExamplePageState extends State<ExamplePage> {
         this._appBarTitle = new TextField(
           controller: _filter,
           decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search),
-              hintText: 'Search...'
-          ),
+              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
         );
       } else {
         this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text( 'Search Example' );
+        this._appBarTitle = new Text('Search Example');
         filteredNames = names;
         _filter.clear();
       }
@@ -378,6 +380,4 @@ class _ExamplePageState extends State<ExamplePage> {
       filteredNames = names;
     });
   }
-
-
 }

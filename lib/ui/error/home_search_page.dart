@@ -9,7 +9,7 @@ import 'package:filmax/ui/tidakdigunakan/search.dart';
 import 'package:filmax/utils/result_state.dart';
 import 'package:filmax/widgets/app_drawer.dart';
 import 'package:filmax/widgets/card_nowplaying.dart';
-import 'package:filmax/widgets/tidakdigunakan/alert_connection.dart';
+import 'package:filmax/widgets/alert_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
